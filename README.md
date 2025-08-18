@@ -49,12 +49,6 @@ See the [Poetry documentation](https://python-poetry.org/docs/) for details.
 
 ## Formatting Code with Black
 
-To install the Black formatter:
-
-```sh
-pip install black
-```
-
 To format all Python files in the project:
 
 ```sh
@@ -65,16 +59,10 @@ This will automatically format your code according to Black's style guide.
 
 ## Linting Code
 
-To install flake8 for linting:
-
-```sh
-pip install flake8
-```
-
 To lint all Python files in the project:
 
 ```sh
-flake8 src/cli src/lib
+ruff check .
 ```
 
 This will check your code for style and programming errors.
@@ -88,12 +76,6 @@ python -m unittest discover -v
 ```
 
 ## Measuring Test Coverage
-
-To install coverage:
-
-```sh
-pip install coverage
-```
 
 To run tests and measure coverage:
 
