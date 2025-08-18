@@ -42,7 +42,7 @@ def parse(pair, delimiters=None):
                 pos += 1
                 mode = Mode.value
             else:
-                raise SyntaxError("expected ':', actual '{ch}'".format(**locals()))
+                raise SyntaxError(f"expected ':', actual '{ch}'")
         elif mode == Mode.value:
             slice = pair[pos:]
             skip, token = value.parse(slice, delimiters)
@@ -52,9 +52,9 @@ def parse(pair, delimiters=None):
         elif mode == Mode.end:
             pass
         else:
-            raise SyntaxError("unexpected mode {mode}".format(**locals()))
+            raise SyntaxError(f"unexpected mode {mode}")
 
     if mode != Mode.end:
-        raise SyntaxError("incomplete pair expression, mode {mode}".format(**locals()))
+        raise SyntaxError(f"incomplete pair expression, mode {mode}")
 
     return types.Result(skip=pos, token=result)

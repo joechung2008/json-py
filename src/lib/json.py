@@ -33,8 +33,6 @@ def parse(expression):
         elif mode == Mode.end:
             pass
         else:
-            raise SyntaxError(
-                "unexpected mode {mode}".format(**locals())
-            )  # f'Unexpected mode {mode}'
+            raise SyntaxError(f"unexpected mode {mode}")
 
     return types.Result(skip=pos, token=token)

@@ -30,7 +30,7 @@ def parse(string):
                 pos += 1
                 mode = Mode.char
             else:
-                raise SyntaxError("expected '\"', actual '{ch}'".format(**locals()))
+                raise SyntaxError(f"expected '\"', actual '{ch}'")
         elif mode == Mode.char:
             if ch == "\\":
                 pos += 1
@@ -44,7 +44,7 @@ def parse(string):
                 )
                 pos += 1
             else:
-                raise SyntaxError("unexpected character '{ch}'".format(**locals()))
+                raise SyntaxError(f"unexpected character '{ch}'")
         elif mode == Mode.escaped_char:
             if ch == '"' or ch == "\\" or ch == "/":
                 token = types.StringToken(
@@ -64,21 +64,15 @@ def parse(string):
                 pos += 1
                 mode = Mode.unicode
             else:
-                raise SyntaxError(
-                    "unexpected escape character '{ch}'".format(**locals())
-                )
+                raise SyntaxError(f"unexpected escape character '{ch}'")
         elif mode == Mode.unicode:
             slice = string[pos : pos + 4]
             if len(slice) != 4:
-                raise SyntaxError(
-                    "incomplete Unicode code '{slice}'".format(**locals())
-                )
+                raise SyntaxError(f"incomplete Unicode code '{slice}'")
             try:
                 hex = int(slice, 16)
             except ValueError:
-                raise SyntaxError(
-                    "unexpected Unicode code '{slice}'".format(**locals())
-                )
+                raise SyntaxError(f"unexpected Unicode code '{slice}'")
             token = types.StringToken(
                 type=types.Type.string, value=token.value + chr(hex)
             )
@@ -87,11 +81,9 @@ def parse(string):
         elif mode == Mode.end:
             pass
         else:
-            raise SyntaxError("unexpected mode {mode}".format(**locals()))
+            raise SyntaxError(f"unexpected mode {mode}")
 
     if mode != Mode.end:
-        raise SyntaxError(
-            "incomplete string expression, mode {mode}".format(**locals())
-        )
+        raise SyntaxError(f"incomplete string expression, mode {mode}")
 
     return types.Result(skip=pos, token=token)

@@ -50,7 +50,7 @@ def parse(value, delimiters=None):
             elif delimiters is not None and re.match(delimiters, ch):
                 mode = Mode.end
             else:
-                raise SyntaxError("unexpected character '{ch}'".format(**locals()))
+                raise SyntaxError(f"unexpected character '{ch}'")
         elif mode == Mode.array:
             slice = value[pos:]
             skip, token = array.parse(slice)
@@ -63,9 +63,7 @@ def parse(value, delimiters=None):
                 pos += 5
                 mode = Mode.end
             else:
-                raise SyntaxError(
-                    "expected 'false', actual '{slice}'".format(**locals())
-                )
+                raise SyntaxError(f"expected 'false', actual '{slice}'")
         elif mode == Mode.null:
             slice = value[pos : pos + 4]
             if slice == "null":
@@ -73,9 +71,7 @@ def parse(value, delimiters=None):
                 pos += 4
                 mode = Mode.end
             else:
-                raise SyntaxError(
-                    "expected 'null', actual '{slice}'".format(**locals())
-                )
+                raise SyntaxError(f"expected 'null', actual '{slice}'")
         elif mode == Mode.number:
             slice = value[pos:]
             skip, token = number.parse(
@@ -100,15 +96,11 @@ def parse(value, delimiters=None):
                 pos += 4
                 mode = Mode.end
             else:
-                raise SyntaxError(
-                    "expected 'true', actual '{slice}'".format(**locals())
-                )
+                raise SyntaxError(f"expected 'true', actual '{slice}'")
         elif mode == Mode.end:
             pass
         else:
-            raise SyntaxError(
-                "unexpected mode {mode}".format(**locals())
-            )  # f'Unexpected mode {mode}'
+            raise SyntaxError(f"unexpected mode {mode}")
 
     if token is None:
         raise SyntaxError("value cannot be empty")

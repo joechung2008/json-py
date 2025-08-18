@@ -58,7 +58,7 @@ def parse(number, delimiters="[ \n\r\t]"):
                 )
                 mode = Mode.characteristic_digit
             else:
-                raise SyntaxError("expected digit, actual '{ch}'".format(**locals()))
+                raise SyntaxError(f"expected digit, actual '{ch}'")
         elif mode == Mode.characteristic_digit:
             if re.match(r"\d", ch):
                 pos += 1
@@ -97,7 +97,7 @@ def parse(number, delimiters="[ \n\r\t]"):
             elif delimiters is not None and re.match(delimiters, ch):
                 mode = Mode.end
             else:
-                raise SyntaxError("unexpected character '{ch}'".format(**locals()))
+                raise SyntaxError(f"unexpected character '{ch}'")
         elif mode == Mode.exponent:
             if re.match("e", ch, re.I):
                 pos += 1
@@ -108,9 +108,7 @@ def parse(number, delimiters="[ \n\r\t]"):
                 )
                 mode = Mode.exponent_sign
             else:
-                raise SyntaxError(
-                    "expected 'e' or 'E', actual '{ch}'".format(**locals())
-                )
+                raise SyntaxError(f"expected 'e' or 'E', actual '{ch}'")
         elif mode == Mode.exponent_sign:
             if ch == "+" or ch == "-":
                 pos += 1
@@ -132,7 +130,7 @@ def parse(number, delimiters="[ \n\r\t]"):
                 )
                 mode = Mode.exponent_digits
             else:
-                raise SyntaxError("expected digit, actual '{ch}'".format(**locals()))
+                raise SyntaxError(f"expected digit, actual '{ch}'")
         elif mode == Mode.exponent_digits:
             if re.match(r"\d", ch):
                 pos += 1
@@ -144,14 +142,14 @@ def parse(number, delimiters="[ \n\r\t]"):
             elif delimiters is not None and re.match(delimiters, ch):
                 mode = Mode.end
             else:
-                raise SyntaxError("expected digit, actual '{ch}'".format(**locals()))
+                raise SyntaxError(f"expected digit, actual '{ch}'")
         elif mode == Mode.end:
             pass
         else:
-            raise SyntaxError("unexpected mode {mode}".format(**locals()))
+            raise SyntaxError(f"unexpected mode {mode}")
 
     if mode == Mode.characteristic or mode == Mode.exponent_first_digit:
-        raise SyntaxError("incomplete expression, mode {mode}".format(**locals()))
+        raise SyntaxError(f"incomplete expression, mode {mode}")
     else:
         token = types.NumberToken(
             type=types.Type.number,

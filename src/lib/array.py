@@ -29,7 +29,7 @@ def parse(array):
                 pos += 1
                 mode = Mode.elements
             else:
-                raise SyntaxError("expected '[', actual '{ch}'".format(**locals()))
+                raise SyntaxError(f"expected '[', actual '{ch}'")
         elif mode == Mode.elements:
             if re.match("[ \n\r\t]", ch):
                 pos += 1
@@ -56,17 +56,13 @@ def parse(array):
                 pos += 1
                 mode = Mode.elements
             else:
-                raise SyntaxError(
-                    "expected ',' or ']', actual '{ch}'".format(**locals())
-                )
+                raise SyntaxError(f"expected ',' or ']', actual '{ch}'")
         elif mode == Mode.end:
             pass
         else:
-            raise SyntaxError(
-                "unexpected mode {mode}".format(**locals())
-            )  # f'Unexpected mode {mode}'
+            raise SyntaxError(f"unexpected mode {mode}")  # f'Unexpected mode {mode}'
 
     if mode != Mode.end:
-        raise SyntaxError("incomplete array expression, mode {mode}".format(**locals()))
+        raise SyntaxError(f"incomplete array expression, mode {mode}")
 
     return types.Result(skip=pos, token=result)

@@ -29,7 +29,7 @@ def parse(object):
                 pos += 1
                 mode = Mode.pair
             else:
-                raise SyntaxError("expected '{{', actual '{ch}'".format(**locals()))
+                raise SyntaxError(f"expected '{{', actual '{ch}'")
         elif mode == Mode.pair:
             if re.match("[ \n\r\t]", ch):
                 pos += 1
@@ -56,17 +56,13 @@ def parse(object):
                 pos += 1
                 mode = Mode.end
             else:
-                raise SyntaxError(
-                    "expected ',' or '}}', actual '{ch}'".format(**locals())
-                )
+                raise SyntaxError(f"expected ',' or '}}', actual '{ch}'")
         elif mode == Mode.end:
             pass
         else:
-            raise SyntaxError("unexpected mode {mode}".format(**locals()))
+            raise SyntaxError(f"unexpected mode {mode}")
 
     if mode != Mode.end:
-        raise SyntaxError(
-            "incomplete object expression, mode {mode}".format(**locals())
-        )
+        raise SyntaxError(f"incomplete object expression, mode {mode}")
 
     return types.Result(skip=pos, token=result)
