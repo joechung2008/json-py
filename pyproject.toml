@@ -5,8 +5,8 @@ description = ""
 authors = ["Joe Chung <joechung-msft@users.noreply.github.com>"]
 readme = "README.md"
 packages = [{include = "lib", from = "src"}]
-python = "^3.13"
-dependencies = []
+
+[tool.poetry.dependencies]
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
