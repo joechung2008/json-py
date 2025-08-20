@@ -11,16 +11,28 @@
 - `src/lib/`: Core parser modules. Each file implements logic for a specific JSON type or concept.
 - `src/cli/main.py`: CLI interface for interactive or piped JSON input.
 - `src/api_fastapi/main.py`: FastAPI server exposing a REST API for parsing JSON input.
+- `src/api_flask/main.py`: Flask server exposing a REST API for parsing JSON input.
 - `pyproject.toml`: Project configuration and dependencies (Poetry compatible).
 - `tests/`: Unit tests for parser components.
 
 ## Developer Workflows
 
 - **Install dependencies:** `poetry install` (uses `pyproject.toml`).
-- **Run CLI:** `python src/cli/main.py` (interactive or piped input).
+- **Run CLI:** `python -m src.cli.main` (interactive or piped input).
 - **Run FastAPI server:**  
   `uvicorn` is a lightning-fast ASGI server for Python web applications. It runs your FastAPI app by serving requests to the `app` object defined in your code. When you run the command below, uvicorn loads your FastAPI application and handles HTTP requests, providing automatic reloading during development.  
   `uvicorn src.api_fastapi.main:app --reload` (serves REST API at `/api/v1/parse`).
+- **Run Flask API server:**  
+  To start the Flask API server, ensure the following code is at the end of `src/api_flask/main.py`:
+  ```python
+  if __name__ == "__main__":
+      app.run(host="0.0.0.0", port=8000, debug=True)
+  ```
+  Then run from the project root:
+  ```sh
+  python -m src.api_flask.main
+  ```
+  This will start the Flask server at `http://127.0.0.1:8000`.
 - **Send test requests:** Use the REST Client extension in VS Code or any HTTP client to POST plaintext JSON to `/api/v1/parse`.
 - **Run tests:** `python -m unittest discover -v` (all tests in `tests/`).
 - **Measure coverage:** `coverage run -m unittest discover` then `coverage report` or `coverage html`.
@@ -53,6 +65,26 @@
 2. Implement parsing logic, following patterns in existing modules.
 3. Add unit tests in `tests/`.
 4. Update CLI or API logic if user input should support the new type.
+
+---
+
+## Running the Flask API Server
+
+To start the Flask API server, use Flask's built-in development server.  
+Make sure the following code is at the end of `src/api_flask/main.py`:
+
+```python
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000, debug=True)
+```
+
+Then run from the project root:
+
+```sh
+python -m src.api_flask.main
+```
+
+This will start the Flask server at `http://127.0.0.1:8000`.
 
 ---
 

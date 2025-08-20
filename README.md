@@ -15,7 +15,7 @@ MIT
 ### Run CLI with user input
 
 ```sh
-python src/cli/main.py
+python --m src.cli.main
 ```
 
 You will be prompted to enter JSON input interactively.
@@ -39,6 +39,24 @@ uvicorn src.api_fastapi.main:app --reload
 ```
 
 This will start the server at `http://127.0.0.1:8000`.
+
+## Running the Flask API Server
+
+To start the Flask API server for the API endpoint, use Flask's built-in development server.  
+Make sure the following code is at the end of `src/api_flask/main.py`:
+
+```python
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000, debug=True)
+```
+
+Then run the server from your project root:
+
+```sh
+python -m src.api_flask.main
+```
+
+This will start the Flask server at `http://127.0.0.1:8000`.
 
 ## Sending Test Requests with REST Client Extension
 
