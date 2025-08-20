@@ -35,7 +35,7 @@ To start the FastAPI server for the API endpoint:
 `uvicorn` is a lightning-fast ASGI server for Python web applications. It runs your FastAPI app by serving requests to the `app` object defined in your code. When you run the command below, uvicorn loads your FastAPI application and handles HTTP requests, providing automatic reloading during development.
 
 ```sh
-uvicorn src.api-fastapi.main:app --reload
+uvicorn src.api_fastapi.main:app --reload
 ```
 
 This will start the server at `http://127.0.0.1:8000`.

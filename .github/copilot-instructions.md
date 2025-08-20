@@ -10,7 +10,7 @@
 
 - `src/lib/`: Core parser modules. Each file implements logic for a specific JSON type or concept.
 - `src/cli/main.py`: CLI interface for interactive or piped JSON input.
-- `src/api-fastapi/main.py`: FastAPI server exposing a REST API for parsing JSON input.
+- `src/api_fastapi/main.py`: FastAPI server exposing a REST API for parsing JSON input.
 - `pyproject.toml`: Project configuration and dependencies (Poetry compatible).
 - `tests/`: Unit tests for parser components.
 
@@ -20,7 +20,7 @@
 - **Run CLI:** `python src/cli/main.py` (interactive or piped input).
 - **Run FastAPI server:**  
   `uvicorn` is a lightning-fast ASGI server for Python web applications. It runs your FastAPI app by serving requests to the `app` object defined in your code. When you run the command below, uvicorn loads your FastAPI application and handles HTTP requests, providing automatic reloading during development.  
-  `uvicorn src.api-fastapi.main:app --reload` (serves REST API at `/api/v1/parse`).
+  `uvicorn src.api_fastapi.main:app --reload` (serves REST API at `/api/v1/parse`).
 - **Send test requests:** Use the REST Client extension in VS Code or any HTTP client to POST plaintext JSON to `/api/v1/parse`.
 - **Run tests:** `python -m unittest discover -v` (all tests in `tests/`).
 - **Measure coverage:** `coverage run -m unittest discover` then `coverage report` or `coverage html`.
@@ -56,4 +56,4 @@
 
 ---
 
-For more details, see `README.md` and source files in `src/lib/`, `src/cli/`, and `src/api-fastapi/`.
+For more details, see `README.md` and source files in `src/lib/`, `src/cli/`, and `src/api_fastapi/`.
