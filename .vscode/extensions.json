@@ -3,5 +3,6 @@
     "ms-python.black-formatter",
     "ms-python.python",
     "ms-python.vscode-pylance",
+    "humao.rest-client"
   ]
 }

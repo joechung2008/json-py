@@ -28,6 +28,33 @@ echo '{"key": "value"}' | python src/cli/main.py
 
 This allows you to pass JSON data directly to the CLI.
 
+## Running the FastAPI Server
+
+To start the FastAPI server for the API endpoint:
+
+`uvicorn` is a lightning-fast ASGI server for Python web applications. It runs your FastAPI app by serving requests to the `app` object defined in your code. When you run the command below, uvicorn loads your FastAPI application and handles HTTP requests, providing automatic reloading during development.
+
+```sh
+uvicorn src.api-fastapi.main:app --reload
+```
+
+This will start the server at `http://127.0.0.1:8000`.
+
+## Sending Test Requests with REST Client Extension
+
+You can use the [REST Client extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) in VS Code to send requests to the FastAPI server.
+
+Create a file (e.g., `test-api.http`) with the following content:
+
+```http
+POST http://localhost:8000/api/v1/parse HTTP/1.1
+Content-Type: text/plain
+
+{"key": "value"}
+```
+
+Click "Send Request" above the request in VS Code to test the API.
+
 ## Project Configuration with pyproject.toml
 
 This project uses a `pyproject.toml` file for configuration and dependency management.  
