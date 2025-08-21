@@ -1,4 +1,7 @@
+venv/
 .venv/
+
+# Build
 __pycache__/
 *.pyc
 
@@ -9,4 +12,3 @@ coverage-*.xml
 
 # Lint
 .ruff_cache/
-
