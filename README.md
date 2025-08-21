@@ -32,8 +32,6 @@ This allows you to pass JSON data directly to the CLI.
 
 To start the FastAPI server for the API endpoint:
 
-`uvicorn` is a lightning-fast ASGI server for Python web applications. It runs your FastAPI app by serving requests to the `app` object defined in your code. When you run the command below, uvicorn loads your FastAPI application and handles HTTP requests, providing automatic reloading during development.
-
 ```sh
 poetry run fastapi
 ```
@@ -42,15 +40,7 @@ This will start the server at `http://127.0.0.1:8000`.
 
 ## Running the Flask API Server
 
-To start the Flask API server for the API endpoint, use Flask's built-in development server.  
-Make sure the following code is at the end of `src/api_flask/main.py`:
-
-```python
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000, debug=True)
-```
-
-Then run the server from your project root:
+To start the Flask server for the API endpoint:
 
 ```sh
 poetry run flask
@@ -102,7 +92,7 @@ poetry run black
 
 This will automatically format your code according to Black's style guide.
 
-## Linting Code
+## Linting Code with Ruff
 
 To lint all Python files in the project:
 
