@@ -15,7 +15,7 @@ MIT
 ### Run CLI with user input
 
 ```sh
-poetry run cli
+python --m src.cli.main
 ```
 
 You will be prompted to enter JSON input interactively.
@@ -23,7 +23,7 @@ You will be prompted to enter JSON input interactively.
 ### Run CLI with a shell command
 
 ```sh
-echo '{"key":"value"}' | poetry run cli
+echo '{"key": "value"}' | python src/cli/main.py
 ```
 
 This allows you to pass JSON data directly to the CLI.
@@ -32,18 +32,28 @@ This allows you to pass JSON data directly to the CLI.
 
 To start the FastAPI server for the API endpoint:
 
+`uvicorn` is a lightning-fast ASGI server for Python web applications. It runs your FastAPI app by serving requests to the `app` object defined in your code. When you run the command below, uvicorn loads your FastAPI application and handles HTTP requests, providing automatic reloading during development.
+
 ```sh
-poetry run fastapi
+uvicorn src.api_fastapi.main:app --reload
 ```
 
 This will start the server at `http://127.0.0.1:8000`.
 
-## Running the Flask Server
+## Running the Flask API Server
 
-To start the Flask server for the API endpoint:
+To start the Flask API server for the API endpoint, use Flask's built-in development server.  
+Make sure the following code is at the end of `src/api_flask/main.py`:
+
+```python
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000, debug=True)
+```
+
+Then run the server from your project root:
 
 ```sh
-poetry run flask
+python -m src.api_flask.main
 ```
 
 This will start the Flask server at `http://127.0.0.1:8000`.
@@ -58,7 +68,7 @@ Create a file (e.g., `test-api.http`) with the following content:
 POST http://localhost:8000/api/v1/parse HTTP/1.1
 Content-Type: text/plain
 
-{"key":"value"}
+{"key": "value"}
 ```
 
 Click "Send Request" above the request in VS Code to test the API.
@@ -87,17 +97,17 @@ See the [Poetry documentation](https://python-poetry.org/docs/) for details.
 To format all Python files in the project:
 
 ```sh
-poetry run black
+black .
 ```
 
 This will automatically format your code according to Black's style guide.
 
-## Linting Code with Ruff
+## Linting Code
 
 To lint all Python files in the project:
 
 ```sh
-poetry run ruff
+ruff check .
 ```
 
 This will check your code for style and programming errors.
@@ -107,7 +117,7 @@ This will check your code for style and programming errors.
 To run all Python tests using unittest:
 
 ```sh
-poetry run tests
+python -m unittest discover -v
 ```
 
 ## Measuring Test Coverage
@@ -115,17 +125,19 @@ poetry run tests
 To run tests and measure coverage:
 
 ```sh
-poetry run coverage
+coverage run -m unittest discover
 ```
 
 To generate a coverage report:
 
 ```sh
-poetry run coverage report
+coverage report
 ```
 
-To generate and open an HTML coverage report:
+To generate an HTML coverage report:
 
 ```sh
-poetry run coverage html
+coverage html
 ```
+
+Open `htmlcov/index.html` in your browser to view the detailed coverage report.
