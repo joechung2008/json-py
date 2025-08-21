@@ -38,7 +38,7 @@ poetry run fastapi
 
 This will start the server at `http://127.0.0.1:8000`.
 
-## Running the Flask API Server
+## Running the Flask Server
 
 To start the Flask server for the API endpoint:
 
@@ -121,11 +121,11 @@ poetry run coverage
 To generate a coverage report:
 
 ```sh
-poetry run coverage_report
+poetry run coverage report
 ```
 
 To generate and open an HTML coverage report:
 
 ```sh
-poetry run coverage_html
+poetry run coverage html
 ```

@@ -20,12 +20,12 @@
 - **Install dependencies:** `poetry install` (uses `pyproject.toml`).
 - **Run CLI:** `poetry run cli` (interactive or piped input).
 - **Run FastAPI server:** `poetry run fastapi`
-- **Run Flask API server:** `poetry run flask`
+- **Run Flask server:** `poetry run flask`
 - **Send test requests:** Use the REST Client extension in VS Code or any HTTP client to POST plaintext JSON to `/api/v1/parse`.
-- **Run tests:** `poetry run test` (runs all tests in `tests/`).
-- **Measure coverage:** `poetry run coverage` (generates coverage report and HTML).
 - **Format code:** `poetry run black` (formats code using Black).
 - **Lint code:** `poetry run ruff` (lints code using Ruff).
+- **Measure coverage:** `poetry run coverage` (generates coverage report and HTML).
+- **Run tests:** `poetry run test` (runs all tests in `tests/`).
 
 ## Project-Specific Patterns
 
