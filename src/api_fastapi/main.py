@@ -33,3 +33,9 @@ async def parse_json(request: Request):
         return JSONResponse(
             status_code=400, content={"ok": False, "error": str(e), "code": 400}
         )
+
+
+def start():
+    import uvicorn
+
+    uvicorn.run("src.api_fastapi.main:app", host="127.0.0.1", port=8000, reload=True)

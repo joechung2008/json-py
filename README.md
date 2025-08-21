@@ -15,7 +15,7 @@ MIT
 ### Run CLI with user input
 
 ```sh
-python --m src.cli.main
+poetry run cli
 ```
 
 You will be prompted to enter JSON input interactively.
@@ -23,7 +23,7 @@ You will be prompted to enter JSON input interactively.
 ### Run CLI with a shell command
 
 ```sh
-echo '{"key": "value"}' | python src/cli/main.py
+echo '{"key":"value"}' | poetry run cli
 ```
 
 This allows you to pass JSON data directly to the CLI.
@@ -35,7 +35,7 @@ To start the FastAPI server for the API endpoint:
 `uvicorn` is a lightning-fast ASGI server for Python web applications. It runs your FastAPI app by serving requests to the `app` object defined in your code. When you run the command below, uvicorn loads your FastAPI application and handles HTTP requests, providing automatic reloading during development.
 
 ```sh
-uvicorn src.api_fastapi.main:app --reload
+poetry run fastapi
 ```
 
 This will start the server at `http://127.0.0.1:8000`.
@@ -53,7 +53,7 @@ if __name__ == "__main__":
 Then run the server from your project root:
 
 ```sh
-python -m src.api_flask.main
+poetry run flask
 ```
 
 This will start the Flask server at `http://127.0.0.1:8000`.
@@ -68,7 +68,7 @@ Create a file (e.g., `test-api.http`) with the following content:
 POST http://localhost:8000/api/v1/parse HTTP/1.1
 Content-Type: text/plain
 
-{"key": "value"}
+{"key":"value"}
 ```
 
 Click "Send Request" above the request in VS Code to test the API.
@@ -97,7 +97,7 @@ See the [Poetry documentation](https://python-poetry.org/docs/) for details.
 To format all Python files in the project:
 
 ```sh
-black .
+poetry run black
 ```
 
 This will automatically format your code according to Black's style guide.
@@ -107,7 +107,7 @@ This will automatically format your code according to Black's style guide.
 To lint all Python files in the project:
 
 ```sh
-ruff check .
+poetry run ruff
 ```
 
 This will check your code for style and programming errors.
@@ -117,7 +117,7 @@ This will check your code for style and programming errors.
 To run all Python tests using unittest:
 
 ```sh
-python -m unittest discover -v
+poetry run tests
 ```
 
 ## Measuring Test Coverage
@@ -125,19 +125,17 @@ python -m unittest discover -v
 To run tests and measure coverage:
 
 ```sh
-coverage run -m unittest discover
+poetry run coverage
 ```
 
 To generate a coverage report:
 
 ```sh
-coverage report
+poetry run coverage_report
 ```
 
-To generate an HTML coverage report:
+To generate and open an HTML coverage report:
 
 ```sh
-coverage html
+poetry run coverage_html
 ```
-
-Open `htmlcov/index.html` in your browser to view the detailed coverage report.

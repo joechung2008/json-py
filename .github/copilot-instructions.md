@@ -18,26 +18,14 @@
 ## Developer Workflows
 
 - **Install dependencies:** `poetry install` (uses `pyproject.toml`).
-- **Run CLI:** `python -m src.cli.main` (interactive or piped input).
-- **Run FastAPI server:**  
-  `uvicorn` is a lightning-fast ASGI server for Python web applications. It runs your FastAPI app by serving requests to the `app` object defined in your code. When you run the command below, uvicorn loads your FastAPI application and handles HTTP requests, providing automatic reloading during development.  
-  `uvicorn src.api_fastapi.main:app --reload` (serves REST API at `/api/v1/parse`).
-- **Run Flask API server:**  
-  To start the Flask API server, ensure the following code is at the end of `src/api_flask/main.py`:
-  ```python
-  if __name__ == "__main__":
-      app.run(host="0.0.0.0", port=8000, debug=True)
-  ```
-  Then run from the project root:
-  ```sh
-  python -m src.api_flask.main
-  ```
-  This will start the Flask server at `http://127.0.0.1:8000`.
+- **Run CLI:** `poetry run cli` (interactive or piped input).
+- **Run FastAPI server:** `poetry run fastapi`
+- **Run Flask API server:** `poetry run flask`
 - **Send test requests:** Use the REST Client extension in VS Code or any HTTP client to POST plaintext JSON to `/api/v1/parse`.
-- **Run tests:** `python -m unittest discover -v` (all tests in `tests/`).
-- **Measure coverage:** `coverage run -m unittest discover` then `coverage report` or `coverage html`.
-- **Format code:** `black .` (Black is the standard formatter).
-- **Lint code:** `flake8 src/cli src/lib` (flake8 is recommended for linting).
+- **Run tests:** `poetry run test` (runs all tests in `tests/`).
+- **Measure coverage:** `poetry run coverage` (generates coverage report and HTML).
+- **Format code:** `poetry run black` (formats code using Black).
+- **Lint code:** `poetry run ruff` (lints code using Ruff).
 
 ## Project-Specific Patterns
 
@@ -59,33 +47,6 @@
 - CLI, API, and library code are strictly separated.
 - All new code should be covered by unit tests in `tests/`.
 
-## Example: Adding a New JSON Type
-
-1. Create a new module in `src/lib/` (e.g., `boolean.py`).
-2. Implement parsing logic, following patterns in existing modules.
-3. Add unit tests in `tests/`.
-4. Update CLI or API logic if user input should support the new type.
-
 ---
 
-## Running the Flask API Server
-
-To start the Flask API server, use Flask's built-in development server.  
-Make sure the following code is at the end of `src/api_flask/main.py`:
-
-```python
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000, debug=True)
-```
-
-Then run from the project root:
-
-```sh
-python -m src.api_flask.main
-```
-
-This will start the Flask server at `http://127.0.0.1:8000`.
-
----
-
-For more details, see `README.md` and source files in `src/lib/`, `src/cli/`, and `src/api_fastapi/`.
+For more details, see `README.md` and source files in `src/lib/`, `src/cli/`, `src/api_flask/`, and `src/api_fastapi/`.

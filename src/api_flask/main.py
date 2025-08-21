@@ -32,5 +32,5 @@ def parse_json():
         return jsonify({"error": str(e), "code": 400}), 400
 
 
-if __name__ == "__main__":
+def start():
     app.run(host="0.0.0.0", port=8000, debug=True)
