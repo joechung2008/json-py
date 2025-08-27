@@ -12,3 +12,10 @@ coverage-*.xml
 
 # Lint
 .ruff_cache/
+
+# JetBrains IDEs
+.idea/
+
+# VS Code
+.vscode/
+!.vscode/extensions.json
