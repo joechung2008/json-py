@@ -15,7 +15,7 @@ MIT
 ### Run CLI with user input
 
 ```sh
-python --m src.cli.main
+python -m src.cli.main
 ```
 
 You will be prompted to enter JSON input interactively.
@@ -141,3 +141,57 @@ coverage html
 ```
 
 Open `htmlcov/index.html` in your browser to view the detailed coverage report.
+
+## Linux Setup: Running CLI and API Servers
+
+To run the CLI and API servers on Linux, follow these steps:
+
+1. **Install Poetry** (if not already installed):
+
+```bash
+pipx install poetry
+```
+
+   Ensure `~/.local/bin` is in your PATH.
+
+2. **Install project dependencies:**
+
+```bash
+poetry install
+```
+
+3. **Activate the virtual environment:**
+
+```bash
+source $(poetry env info --path)/bin/activate
+```
+
+4. **Run the CLI interactively:**
+
+```bash
+python -m src.cli.main
+```
+
+5. **Run the CLI with piped input:**
+
+```bash
+echo '{"key": "value"}' | python -m src.cli.main
+```
+
+6. **Run the FastAPI server:**
+
+```bash
+uvicorn src.api_fastapi.main:app --reload
+```
+
+The server will be available at `http://127.0.0.1:8000`.
+
+7. **Run the Flask API server:**
+
+```bash
+python -m src.api_flask.main
+```
+
+The server will be available at `http://127.0.0.1:8000`.
+
+If you encounter missing dependencies, re-run `poetry install` after activating your environment. For more details, see the sections above.
