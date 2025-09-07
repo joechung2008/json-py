@@ -1,9 +1,18 @@
-[tool.poetry]
+[project]
 name = "json-py"
-version = "0.1.0"
+authors = [{name = "Joe Chung", email = "joechung-msft@users.noreply.github.com"}]
 description = ""
-authors = ["Joe Chung <joechung-msft@users.noreply.github.com>"]
+version = "0.1.0"
 readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "fastapi>=0.116.1,<0.117.0",
+    "uvicorn>=0.35.0,<0.36.0",
+    "prettyprinter>=0.18.0,<0.19.0",
+    "flask>=3.1.2,<3.2.0"
+]
+
+[tool.poetry]
 packages = [{include = "lib", from = "src"}]
 
 [tool.poetry.dependencies]
