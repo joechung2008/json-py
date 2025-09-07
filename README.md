@@ -28,6 +28,19 @@ echo '{"key": "value"}' | python src/cli/main.py
 
 This allows you to pass JSON data directly to the CLI.
 
+## Running the Django API Server
+
+To start the Django API server for the API endpoint, use Django's built-in development server.
+
+First, navigate to the Django project directory and then run the server:
+
+```sh
+cd src/api_django
+python manage.py runserver
+```
+
+This will start the Django server at `http://127.0.0.1:8000`.
+
 ## Running the FastAPI Server
 
 To start the FastAPI server for the API endpoint:
@@ -190,6 +203,15 @@ The server will be available at `http://127.0.0.1:8000`.
 
 ```bash
 python -m src.api_flask.main
+```
+
+The server will be available at `http://127.0.0.1:8000`.
+
+8. **Run the Django API server:**
+
+```bash
+cd src/api_django
+python manage.py runserver
 ```
 
 The server will be available at `http://127.0.0.1:8000`.

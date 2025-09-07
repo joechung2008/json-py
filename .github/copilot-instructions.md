@@ -10,47 +10,24 @@
 
 - `src/lib/`: Core parser modules. Each file implements logic for a specific JSON type or concept.
 - `src/cli/main.py`: CLI interface for interactive or piped JSON input.
+- `src/api_django/`: Django server exposing a REST API for parsing JSON input.
 - `src/api_fastapi/main.py`: FastAPI server exposing a REST API for parsing JSON input.
 - `src/api_flask/main.py`: Flask server exposing a REST API for parsing JSON input.
 - `pyproject.toml`: Project configuration and dependencies (Poetry compatible).
 - `tests/`: Unit tests for parser components.
 
-## Developer Workflows
-
-- **Install dependencies:** `poetry install` (uses `pyproject.toml`).
-- **Run CLI:** `python -m src.cli.main` (interactive or piped input).
-- **Run FastAPI server:**  
-  `uvicorn` is a lightning-fast ASGI server for Python web applications. It runs your FastAPI app by serving requests to the `app` object defined in your code. When you run the command below, uvicorn loads your FastAPI application and handles HTTP requests, providing automatic reloading during development.  
-  `uvicorn src.api_fastapi.main:app --reload` (serves REST API at `/api/v1/parse`).
-- **Run Flask API server:**  
-  To start the Flask API server, ensure the following code is at the end of `src/api_flask/main.py`:
-  ```python
-  if __name__ == "__main__":
-      app.run(host="0.0.0.0", port=8000, debug=True)
-  ```
-  Then run from the project root:
-  ```sh
-  python -m src.api_flask.main
-  ```
-  This will start the Flask server at `http://127.0.0.1:8000`.
-- **Send test requests:** Use the REST Client extension in VS Code or any HTTP client to POST plaintext JSON to `/api/v1/parse`.
-- **Run tests:** `python -m unittest discover -v` (all tests in `tests/`).
-- **Measure coverage:** `coverage run -m unittest discover` then `coverage report` or `coverage html`.
-- **Format code:** `black .` (Black is the standard formatter).
-- **Lint code:** `flake8 src/cli src/lib` (flake8 is recommended for linting).
-
 ## Project-Specific Patterns
 
 - **Parser Design:** Each JSON type (array, object, string, number, etc.) has its own module in `src/lib/`. Cross-module imports are used for type composition.
 - **CLI Pattern:** The CLI reads from stdin or prompts the user, then delegates parsing to the core modules.
-- **API Pattern:** The FastAPI server exposes a POST endpoint `/api/v1/parse` that accepts plaintext JSON, parses it using the core parser, and returns either a parsed result or an error message.
+- **API Pattern:** The API servers (Django, FastAPI, Flask) expose a POST endpoint `/api/v1/parse` that accepts plaintext JSON, parses it using the core parser, and returns either a parsed result or an error message.
 - **Testing:** Tests are in `tests/`, using Python's built-in `unittest` framework. Coverage is measured with `coverage`.
-- **Formatting & Linting:** Black and flake8 are used; see `.vscode/settings.json` for formatter config.
+- **Formatting & Linting:** Black and ruff are used; see `.vscode/settings.json` for formatter config.
 
 ## Integration Points
 
 - No external APIs or services; all logic is local and self-contained.
-- Poetry is used for dependency management; Black and flake8 for code quality.
+- Poetry is used for dependency management; Black and ruff for code quality.
 
 ## Conventions
 
@@ -59,33 +36,4 @@
 - CLI, API, and library code are strictly separated.
 - All new code should be covered by unit tests in `tests/`.
 
-## Example: Adding a New JSON Type
-
-1. Create a new module in `src/lib/` (e.g., `boolean.py`).
-2. Implement parsing logic, following patterns in existing modules.
-3. Add unit tests in `tests/`.
-4. Update CLI or API logic if user input should support the new type.
-
----
-
-## Running the Flask API Server
-
-To start the Flask API server, use Flask's built-in development server.  
-Make sure the following code is at the end of `src/api_flask/main.py`:
-
-```python
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000, debug=True)
-```
-
-Then run from the project root:
-
-```sh
-python -m src.api_flask.main
-```
-
-This will start the Flask server at `http://127.0.0.1:8000`.
-
----
-
-For more details, see `README.md` and source files in `src/lib/`, `src/cli/`, and `src/api_fastapi/`.
+For detailed setup and running instructions, see `README.md`. For more details on source files, see `src/lib/`, `src/cli/`, `src/api_django`, `src/api_fastapi/`, and `src/api_flask/`.

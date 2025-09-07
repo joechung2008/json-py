@@ -30,6 +30,4 @@ async def parse_json(request: Request):
     except Exception as e:
         print("Error:", str(e), file=stderr)
         print_exc(file=stderr)
-        return JSONResponse(
-            status_code=400, content={"ok": False, "error": str(e), "code": 400}
-        )
+        return JSONResponse(status_code=400, content={"error": str(e), "code": 400})
