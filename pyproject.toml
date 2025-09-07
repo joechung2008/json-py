@@ -1,6 +1,6 @@
 [project]
 name = "json-py"
-authors = [{name = "Joe Chung", email = "joechung-msft@users.noreply.github.com"}]
+authors = [{name = "Joe Chung", email = "joechung2008@users.noreply.github.com"}]
 description = ""
 version = "0.1.0"
 readme = "README.md"
