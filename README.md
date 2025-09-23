@@ -23,7 +23,7 @@ You will be prompted to enter JSON input interactively.
 ### Run CLI with a shell command
 
 ```sh
-echo '{"key": "value"}' | python src/cli/main.py
+echo '{"key": "value"}' | python -m src.cli.main
 ```
 
 This allows you to pass JSON data directly to the CLI.
@@ -183,6 +183,9 @@ source $(poetry env info --path)/bin/activate
 
 ```bash
 python -m src.cli.main
+
+# Use Poetry script
+poetry run cli
 ```
 
 5. **Run the CLI with piped input:**
