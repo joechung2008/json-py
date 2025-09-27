@@ -1,6 +1,6 @@
 # json-py
 
-JSON parser ported from TypeScript to Python 3.13.7
+A small JSON parser library, ported from TypeScript to Python, with a CLI and simple HTTP APIs implemented in FastAPI, Flask, and Django.
 
 ## License
 
@@ -10,213 +10,132 @@ MIT
 
 [json.org](http://json.org)
 
-## Usage
+## Overview
 
-### Run CLI with user input
+- Library: JSON tokenizer/parser in plain Python (src/lib/\*).
+- CLI: Reads JSON from stdin and pretty-prints the parsed structure.
+- HTTP APIs: POST /api/v1/parse that accepts raw body (text/plain or application/json) and returns a pretty-printed parse result.
+- Tests: unittest-based tests under tests/ and sample REST requests in testdata/.
 
-```sh
-python -m src.cli.main
-```
+## Tech stack and package manager
 
-You will be prompted to enter JSON input interactively.
+- Language: Python (requires >= 3.10 per pyproject.toml)
+- Package manager/build: Poetry (pyproject.toml)
+- Web frameworks (optional, for APIs):
+  - FastAPI (served via uvicorn)
+  - Flask
+  - Django + Django REST framework
+- Dev tools: black, ruff, coverage
 
-### Run CLI with a shell command
+## Requirements
 
-```sh
-echo '{"key": "value"}' | python -m src.cli.main
-```
+- Python 3.10 or newer
+- Poetry installed (recommended via pipx: pipx install poetry)
+- Optional: uvicorn for FastAPI (installed via Poetry dependencies)
 
-This allows you to pass JSON data directly to the CLI.
+## Installation
 
-## Running the Django API Server
+Using Poetry (recommended):
 
-To start the Django API server for the API endpoint, use Django's built-in development server.
+- Windows PowerShell
 
-First, navigate to the Django project directory and then run the server:
+  - pipx install poetry
+  - poetry install
 
-```sh
-cd src/api_django
-python manage.py runserver
-```
+- macOS/Linux (or WSL)
+  - pipx install poetry
+  - poetry install
 
-This will start the Django server at `http://127.0.0.1:8000`.
+You can run commands with the environment isolated via poetry run <cmd> or activate the venv:
 
-## Running the FastAPI Server
+- PowerShell: .venv\Scripts\Activate.ps1 (if you configured in-project venv)
+- Bash/zsh: source $(poetry env info --path)/bin/activate
 
-To start the FastAPI server for the API endpoint:
+## Running
 
-`uvicorn` is a lightning-fast ASGI server for Python web applications. It runs your FastAPI app by serving requests to the `app` object defined in your code. When you run the command below, uvicorn loads your FastAPI application and handles HTTP requests, providing automatic reloading during development.
+### CLI
 
-```sh
-uvicorn src.api_fastapi.main:app --reload
-```
+- Interactive from stdin
+  - Windows PowerShell: Get-Content -Raw .\path\to\input.json | poetry run python -m src.cli.main
+  - macOS/Linux: cat path/to/input.json | poetry run python -m src.cli.main
+- One-liner with echo (POSIX shells): echo '{"key": "value"}' | poetry run python -m src.cli.main
+- Via Poetry script (defined in pyproject.toml): poetry run cli
 
-This will start the server at `http://127.0.0.1:8000`.
+### FastAPI (recommended HTTP API)
 
-## Running the Flask API Server
+- Run: poetry run uvicorn src.api_fastapi.main:app --reload
+- Endpoint: POST http://127.0.0.1:8000/api/v1/parse
+- Request headers: Content-Type: text/plain; charset=utf-8 (or application/json)
 
-To start the Flask API server for the API endpoint, use Flask's built-in development server.  
-Make sure the following code is at the end of `src/api_flask/main.py`:
+### Flask
 
-```python
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000, debug=True)
-```
+- Run: poetry run python -m src.api_flask.main
+- Endpoint: POST http://127.0.0.1:8000/api/v1/parse
 
-Then run the server from your project root:
+### Django
 
-```sh
-python -m src.api_flask.main
-```
+- Run from project root:
+  - cd src\api_django
+  - poetry run python manage.py runserver
+- Endpoint: POST http://127.0.0.1:8000/api/v1/parse
+- Note: A sys.path tweak in src/api_django/api/views.py includes an absolute Linux path. This is likely stale for other environments. See TODOs below.
 
-This will start the Flask server at `http://127.0.0.1:8000`.
+## Scripts
 
-## Sending Test Requests with REST Client Extension
+Defined in pyproject.toml:
 
-You can use the [REST Client extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) in VS Code to send requests to the FastAPI server.
+- Poetry script: cli -> src.cli.main:main
+  - Run with: poetry run cli
 
-Create a file (e.g., `test-api.http`) with the following content:
+Common ad-hoc commands:
+
+- Lint: poetry run ruff check .
+- Format: poetry run black .
+- Tests: poetry run python -m unittest discover -v
+- Coverage: poetry run coverage run -m unittest discover && poetry run coverage report
+- FastAPI dev server: poetry run uvicorn src.api_fastapi.main:app --reload
+
+## Environment variables and configuration
+
+- No required environment variables for library or CLI.
+- Encoding: APIs detect request body charset from the Content-Type header; defaults to utf-8 if unspecified.
+- Flask: You may override port/host by modifying src/api_flask/main.py (defaults to 0.0.0.0:8000).
+- Django: Default development settings in src/api_django/json_parser/settings.py are used. For production, configure SECRET_KEY, DEBUG, ALLOWED_HOSTS, etc.
+- FastAPI: No special env; use uvicorn flags for host/port, e.g., --host 0.0.0.0 --port 8000.
+
+## Tests
+
+- Run all tests: poetry run python -m unittest discover -v
+- Coverage:
+  - poetry run coverage run -m unittest discover
+  - poetry run coverage report
+  - poetry run coverage html (open htmlcov/index.html)
+
+Sample requests are provided in testdata/\*.rest, compatible with VS Code REST Client or JetBrains HTTP Client. Example (HTTP file):
 
 ```http
-POST http://localhost:8000/api/v1/parse HTTP/1.1
+POST http://localhost:8000/api/v1/parse
 Content-Type: text/plain
 
 {"key": "value"}
 ```
 
-Click "Send Request" above the request in VS Code to test the API.
+## Project structure
 
-## Project Configuration with pyproject.toml
-
-This project uses a `pyproject.toml` file for configuration and dependency management.  
-`pyproject.toml` is a standardized file for Python projects that defines build system requirements and project metadata.
-
-You do not run or view `pyproject.toml` with a command; it is a configuration file that you can open and edit in any text editor.  
-Tools like Poetry read this file automatically when you run commands such as `poetry install`.
-
-### Poetry
-
-[Poetry](https://python-poetry.org/) is used for dependency management and packaging.  
-Install dependencies with:
-
-```sh
-poetry install
-```
-
-See the [Poetry documentation](https://python-poetry.org/docs/) for details.
-
-## Formatting Code with Black
-
-To format all Python files in the project:
-
-```sh
-black .
-```
-
-This will automatically format your code according to Black's style guide.
-
-## Linting Code
-
-To lint all Python files in the project:
-
-```sh
-ruff check .
-```
-
-This will check your code for style and programming errors.
-
-## Running Tests
-
-To run all Python tests using unittest:
-
-```sh
-python -m unittest discover -v
-```
-
-## Measuring Test Coverage
-
-To run tests and measure coverage:
-
-```sh
-coverage run -m unittest discover
-```
-
-To generate a coverage report:
-
-```sh
-coverage report
-```
-
-To generate an HTML coverage report:
-
-```sh
-coverage html
-```
-
-Open `htmlcov/index.html` in your browser to view the detailed coverage report.
-
-## Linux Setup: Running CLI and API Servers
-
-To run the CLI and API servers on Linux, follow these steps:
-
-1. **Install Poetry** (if not already installed):
-
-```bash
-pipx install poetry
-```
-
-   Ensure `~/.local/bin` is in your PATH.
-
-2. **Install project dependencies:**
-
-```bash
-poetry install
-```
-
-3. **Activate the virtual environment:**
-
-```bash
-source $(poetry env info --path)/bin/activate
-```
-
-4. **Run the CLI interactively:**
-
-```bash
-python -m src.cli.main
-
-# Use Poetry script
-poetry run cli
-```
-
-5. **Run the CLI with piped input:**
-
-```bash
-echo '{"key": "value"}' | python -m src.cli.main
-```
-
-6. **Run the FastAPI server:**
-
-```bash
-uvicorn src.api_fastapi.main:app --reload
-```
-
-The server will be available at `http://127.0.0.1:8000`.
-
-7. **Run the Flask API server:**
-
-```bash
-python -m src.api_flask.main
-```
-
-The server will be available at `http://127.0.0.1:8000`.
-
-8. **Run the Django API server:**
-
-```bash
-cd src/api_django
-python manage.py runserver
-```
-
-The server will be available at `http://127.0.0.1:8000`.
-
-If you encounter missing dependencies, re-run `poetry install` after activating your environment. For more details, see the sections above.
+- LICENSE
+- README.md
+- pyproject.toml
+- poetry.lock
+- src/
+  - lib/ (parser library)
+    - **init**.py, json.py, value.py, string.py, number.py, array.py, object.py, pair.py, types.py
+  - cli/
+    - main.py (entry point for CLI; exposed as Poetry script cli)
+  - api_fastapi/
+    - main.py (FastAPI app with POST /api/v1/parse)
+  - api_flask/
+    - main.py (Flask app with POST /api/v1/parse)
+  - api_django/
+    - manage.py, json_parser/ (Django project), api/ (Django app with POST /api/v1/parse)
+- tests/ (unittest test suite)
+- testdata/ (\*.rest example requests)
