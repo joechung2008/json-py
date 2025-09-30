@@ -69,16 +69,20 @@ You can run commands with the environment isolated via poetry run <cmd> or activ
 
 ### Flask
 
-- Run: poetry run python -m src.api_flask.main
-- Endpoint: POST http://127.0.0.1:8000/api/v1/parse
+Run (development):
+  poetry run python -m src.api_flask.main
+Run (production, recommended):
+  poetry run gunicorn -b 0.0.0.0:8000 src.api_flask.main:app
+Endpoint: POST http://127.0.0.1:8000/api/v1/parse
 
 ### Django
 
-- Run from project root:
-  - cd src\api_django
-  - poetry run python manage.py runserver
-- Endpoint: POST http://127.0.0.1:8000/api/v1/parse
-- Note: A sys.path tweak in src/api_django/api/views.py includes an absolute Linux path. This is likely stale for other environments. See TODOs below.
+Run from project root:
+  - cd src/api_django
+  - poetry run python manage.py runserver  # Development only
+  - poetry run gunicorn -b 0.0.0.0:8000 json_parser.wsgi:application  # Production
+Endpoint: POST http://127.0.0.1:8000/api/v1/parse
+Note: A sys.path tweak in src/api_django/api/views.py includes an absolute Linux path. This is likely stale for other environments. See TODOs below.
 
 ## Scripts
 
