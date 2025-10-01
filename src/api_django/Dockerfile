@@ -7,8 +7,7 @@ COPY pyproject.toml poetry.lock README.md ./
 COPY src/api_django ./src/api_django
 COPY src/lib ./src/lib
 
-RUN pip install poetry && poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi \
-	&& poetry add gunicorn
+RUN pip install poetry && poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi
 
 WORKDIR /app/src/api_django
 
